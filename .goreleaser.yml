@@ -45,8 +45,7 @@ changelog:
       - '^test:'
 
 brews:
-  - name: ten-agent-cli
-    tap:
+  - repository:
       owner: digitallysavvy
       name: homebrew-tap
       token: '{{ .Env.TAP_GITHUB_TOKEN }}'
@@ -54,5 +53,8 @@ brews:
     homepage: 'https://github.com/digitallysavvy/ten-agent-cli'
     description: 'CLI tool for TEN-Agent'
     license: 'Apache-2.0'
+    commit_author:
+      name: goreleaserbot
+      email: goreleaser@carlosbecker.com
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
