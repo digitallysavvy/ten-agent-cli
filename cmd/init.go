@@ -34,7 +34,10 @@ var initCmd = &cobra.Command{
 	Use:   "init [project name]",
 	Short: "Initialize a new TEN Agent project",
 	Long: `Initialize a new TEN Agent project using the TEN-Agent template from GitHub.
-This command will set up the project structure and install required components.`,
+This command will set up the project structure and install required components.
+
+Example:
+  ten-agent init myproject --agora-app-id=YOUR_AGORA_APP_ID --openai-key=YOUR_OPENAI_KEY`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		projectName := args[0]
@@ -95,20 +98,19 @@ This command will set up the project structure and install required components.`
 func init() {
 	rootCmd.AddCommand(initCmd)
 
-	// Add flags for environment variables
-	initCmd.Flags().StringVar(&agoraAppID, "agora-app-id", "", "Agora App ID")
+	initCmd.Flags().StringVar(&agoraAppID, "agora-app-id", "", "Agora App ID (required)")
 	initCmd.Flags().StringVar(&agoraCertificate, "agora-certificate", "", "Agora App Certificate")
-	initCmd.Flags().StringVar(&azureSTTKey, "azure-stt-key", "", "Azure Speech-to-Text Key")
-	initCmd.Flags().StringVar(&azureSTTRegion, "azure-stt-region", "", "Azure Speech-to-Text Region")
-	initCmd.Flags().StringVar(&azureTTSKey, "azure-tts-key", "", "Azure Text-to-Speech Key")
-	initCmd.Flags().StringVar(&azureTTSRegion, "azure-tts-region", "", "Azure Text-to-Speech Region")
-	initCmd.Flags().StringVar(&openAIKey, "openai-key", "", "OpenAI API Key")
+	initCmd.Flags().StringVar(&azureSTTKey, "azure-stt-key", "", "Azure Speech-to-Text Key (required)")
+	initCmd.Flags().StringVar(&azureSTTRegion, "azure-stt-region", "", "Azure Speech-to-Text Region (required)")
+	initCmd.Flags().StringVar(&azureTTSKey, "azure-tts-key", "", "Azure Text-to-Speech Key (required)")
+	initCmd.Flags().StringVar(&azureTTSRegion, "azure-tts-region", "", "Azure Text-to-Speech Region (required)")
+	initCmd.Flags().StringVar(&openAIKey, "openai-key", "", "OpenAI API Key (required)")
 	initCmd.Flags().StringVar(&graphDesignerPort, "graph-designer-port", "49483", "Graph Designer Server Port")
 	initCmd.Flags().StringVar(&serverPort, "server-port", "8080", "Server Port")
 	initCmd.Flags().StringVar(&workersMax, "workers-max", "10", "Maximum number of workers")
 	initCmd.Flags().StringVar(&workerQuitTimeout, "worker-quit-timeout", "60", "Worker quit timeout in seconds")
 	initCmd.Flags().StringVar(&logPath, "log-path", "/tmp/astra", "Log path")
-	initCmd.Flags().StringVar(&logStdout, "log-stdout", "false", "Log to stdout")
+	initCmd.Flags().StringVar(&logStdout, "log-stdout", "false", "Log to stdout (true/false)")
 	initCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose logging")
 }
 

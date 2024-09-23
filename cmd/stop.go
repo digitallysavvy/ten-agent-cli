@@ -10,7 +10,13 @@ import (
 var stopCmd = &cobra.Command{
 	Use:   "stop",
 	Short: "Stop the TEN Agent services",
-	Long:  `Stop the TEN Agent services that are running in Docker containers.`,
+	Long: `Stop the TEN Agent services that are running in Docker containers.
+
+This command runs 'docker-compose down' to stop and remove all running
+containers associated with the TEN Agent project.
+
+Example:
+  ten-agent stop`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Stopping TEN Agent services...")
 
