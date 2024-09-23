@@ -69,14 +69,113 @@ func createEnvFile(envVars map[string]string) error {
 	}
 	defer file.Close()
 
-	for key, value := range envVars {
-		if value != "" {
-			_, err := file.WriteString(fmt.Sprintf("%s=%s\n", key, value))
-			if err != nil {
-				return err
-			}
-		}
-	}
+	// Write the content
+	content := `# ------------------------------
+# Environment Variables for server & worker
+# ------------------------------
 
-	return nil
+# ------------------------------
+# Server Configuration
+# ------------------------------
+
+# Log path
+LOG_PATH=%s
+LOG_STDOUT=%s
+# Graph designer server port
+GRAPH_DESIGNER_SERVER_PORT=%s
+# Server port
+SERVER_PORT=%s
+# Maximum number of workers
+WORKERS_MAX=%s
+# Worker quit timeout in seconds
+WORKER_QUIT_TIMEOUT_SECONDES=%s
+
+# Agora App ID and Agora App Certificate
+AGORA_APP_ID=%s
+AGORA_APP_CERTIFICATE=%s
+
+# ------------------------------
+# Worker Configuration
+# ------------------------------
+
+# Extension: aliyun_analyticdb_vector_storage
+ALIBABA_CLOUD_ACCESS_KEY_ID=
+ALIBABA_CLOUD_ACCESS_KEY_SECRET=
+ALIYUN_ANALYTICDB_ACCOUNT=
+ALIYUN_ANALYTICDB_ACCOUNT_PASSWORD=
+ALIYUN_ANALYTICDB_INSTANCE_ID=
+ALIYUN_ANALYTICDB_INSTANCE_REGION=cn-shanghai
+ALIYUN_ANALYTICDB_NAMESPACE=
+ALIYUN_ANALYTICDB_NAMESPACE_PASSWORD=
+
+# Extension: aliyun_text_embedding
+ALIYUN_TEXT_EMBEDDING_API_KEY=
+
+# Extension: bedrock_llm
+# Extension: polly_tts
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+
+# Extension: agora_rtc
+# Azure STT key and region
+AZURE_STT_KEY=%s
+AZURE_STT_REGION=%s
+
+# Extension: azure_tts
+# Azure TTS key and region
+AZURE_TTS_KEY=%s
+AZURE_TTS_REGION=%s
+
+# Extension: cosy_tts
+# Cosy TTS key
+COSY_TTS_KEY=
+
+# Extension: elevenlabs_tts
+# ElevenLabs TTS key
+ELEVENLABS_TTS_KEY=
+
+# Extension: gemini_llm
+# Gemini API key
+GEMINI_API_KEY=
+
+# Extension: litellm
+# Using Environment Variables, refer to https://docs.litellm.ai/docs/providers
+# For example:
+#     OpenAI
+#         OPENAI_API_KEY=<your-api-key>
+#         OPENAI_API_BASE=<openai-api-base>
+#     AWS Bedrock
+#         AWS_ACCESS_KEY_ID=<your-aws-access-key-id>
+#         AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
+#         AWS_REGION_NAME=<aws-region-name>
+LITELLM_MODEL=gpt-4o-mini
+
+# Extension: openai_chatgpt
+# OpenAI API key
+OPENAI_API_KEY=%s
+# OpenAI proxy URL
+OPENAI_PROXY_URL=
+
+# Extension: qwen_llm
+# Qwen API key
+QWEN_API_KEY=
+`
+
+	_, err = fmt.Fprintf(file, content,
+		envVars["LOG_PATH"],
+		envVars["LOG_STDOUT"],
+		envVars["GRAPH_DESIGNER_SERVER_PORT"],
+		envVars["SERVER_PORT"],
+		envVars["WORKERS_MAX"],
+		envVars["WORKER_QUIT_TIMEOUT_SECONDES"],
+		envVars["AGORA_APP_ID"],
+		envVars["AGORA_APP_CERTIFICATE"],
+		envVars["AZURE_STT_KEY"],
+		envVars["AZURE_STT_REGION"],
+		envVars["AZURE_TTS_KEY"],
+		envVars["AZURE_TTS_REGION"],
+		envVars["OPENAI_API_KEY"],
+	)
+
+	return err
 }
