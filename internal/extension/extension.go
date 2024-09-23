@@ -29,6 +29,12 @@ type APIItem struct {
 }
 
 func Create(name string) error {
+	// Change the working directory to the agents folder
+	err := os.Chdir("agents")
+	if err != nil {
+		return fmt.Errorf("failed to change directory: %w", err)
+	}
+
 	// Define the base command
 	cmd := exec.Command("tman", "install", "extension", "default_extension_go")
 
@@ -36,9 +42,6 @@ func Create(name string) error {
 	cmd.Args = append(cmd.Args, "--template-mode")
 	cmd.Args = append(cmd.Args, "--template-data", fmt.Sprintf("package_name=%s", name))
 	cmd.Args = append(cmd.Args, "--template-data", fmt.Sprintf("class_name_prefix=%s", capitalize(name)))
-
-	// Set the working directory to the extension folder
-	cmd.Dir = filepath.Join("agents", "ten_packages", "extension")
 
 	// Execute the command
 	output, err := cmd.CombinedOutput()
@@ -49,7 +52,7 @@ func Create(name string) error {
 	fmt.Printf("Extension '%s' created successfully\n", name)
 
 	// Walk through manifest.json options
-	manifestPath := filepath.Join(cmd.Dir, name, "manifest.json")
+	manifestPath := filepath.Join(name, "manifest.json")
 	api, err := walkThroughManifestOptions()
 	if err != nil {
 		return fmt.Errorf("failed to walk through manifest options: %w", err)
@@ -155,5 +158,5 @@ func capitalize(s string) string {
 	if len(s) == 0 {
 		return s
 	}
-	return string(s[0]-32) + s[1:]
+	return strings.ToUpper(s[:1]) + s[1:]
 }
