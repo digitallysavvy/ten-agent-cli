@@ -1,0 +1,39 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    main: ./cmd/ten-agent-cli
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: '{{ incpatch .Version }}-next'
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+brews:
+  - name: ten-agent-cli
+    tap:
+      owner: digitallysavvy
+      name: homebrew-tap
+    folder: Formula
+    homepage: 'https://github.com/digitallysavvy/ten-agent-cli'
+    description: 'CLI tool for TEN-Agent'
+    license: 'Apache-2.0'
