@@ -15,7 +15,7 @@ builds:
     goarch:
       - amd64
       - arm64
-    main: ./cmd/ten-agent-cli
+    main: . # use main.go in the root directory
 
 archives:
   - format: tar.gz
