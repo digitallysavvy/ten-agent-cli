@@ -18,7 +18,7 @@ builds:
     main: . # use main.go in the root directory
 
     ldflags:
-      - -X 'main.buildTimeAnthropicAPIKey={{ .Env.ANTHROPIC_API_KEY }}'
+      - -X github.com/digitallysavvy/ten-agent-cli/cmd.buildTimeAnthropicAPIKey={{ .Env.ANTHROPIC_API_KEY }}
       - -s -w
       - -X github.com/digitallysavvy/ten-agent-cli/cmd.version={{.Version}}
       - -X github.com/digitallysavvy/ten-agent-cli/cmd.commit={{.ShortCommit}}
