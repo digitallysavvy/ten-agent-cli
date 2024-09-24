@@ -32,6 +32,17 @@ func Create(name string) error {
 		return fmt.Errorf("failed to create extension: %w\n%s", err, output)
 	}
 
+	// Define the path for the new extension
+	extensionPath := filepath.Join("app", "agents", "ten_packages", "extension", name)
+
+	// Rename default_extension.go to [name]_extension.go
+	defaultExtensionPath := filepath.Join(extensionPath, "default_extension.go")
+	mainGoPath := filepath.Join(extensionPath, name+"_extension.go")
+	err = os.Rename(defaultExtensionPath, mainGoPath)
+	if err != nil {
+		return fmt.Errorf("failed to rename default_extension.go to main.go: %w", err)
+	}
+
 	fmt.Printf("Extension '%s' created successfully\n", name)
 
 	fmt.Printf("Do you want to walk through the manifest options? (y/n): ")
