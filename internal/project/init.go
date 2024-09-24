@@ -20,7 +20,7 @@ func Initialize(projectName string, envVars map[string]string) error {
 	}
 
 	// Clone the TEN-Agent template directly into the current directory
-	cmd := exec.Command("git", "clone", "--depth", "1", "https://github.com/TEN-framework/TEN-Agent", ".")
+	cmd := exec.Command("git", "clone", "--depth", "1", "https://github.com/digitallysavvy/TEN-Agent", ".")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("failed to clone TEN-Agent template: %w\n%s", err, output)
