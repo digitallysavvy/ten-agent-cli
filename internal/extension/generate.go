@@ -137,13 +137,10 @@ func askQuestion(question string) string {
 func generateWithClaude(prompt string) (string, error) {
 	apiKey := buildTimeAnthropicAPIKey
 	if apiKey == "" {
-		apiKey = os.Getenv("ANTHROPIC_API_KEY")
-	}
-	if apiKey == "" {
-		return "", fmt.Errorf("ANTHROPIC_API_KEY build-time variable or environment variable not set")
+		return "", fmt.Errorf("ANTHROPIC_API_KEY build-time variable not set")
 	}
 
-	// Debug print statement
+	// Debug print statement - TODO: Remove this before release
 	fmt.Printf("Using ANTHROPIC_API_KEY: %s\n", apiKey)
 
 	request := AnthropicRequest{
