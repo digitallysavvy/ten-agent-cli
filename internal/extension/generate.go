@@ -72,7 +72,7 @@ func Generate(name string, buildTimeAnthropicAPIKey string, verbose bool) error 
 		log.Println("Generating extension files using Claude 3.5 Sonnet...")
 	}
 
-	basePrompt := fmt.Sprintf(`You are an AI assistant specialized in creating TEN Framework extensions. Use the following supplemental information as reference, but adapt it for the specific extension being created. Make sure to use 'ten_framework/ten' instead of 'agoraio/rte' in the import statements.
+	basePrompt := fmt.Sprintf(`You are an AI assistant specialized in creating TEN Framework extensions. Use the following supplemental information as reference, but adapt it for the specific extension being created. 
 
 Supplemental Information:
 %s
@@ -84,9 +84,9 @@ Now, generate the content for a TEN Framework extension with the following detai
 - API URL: %s
 - Model Name: %s
 
-The extension should implement the TEN Framework interfaces and handle video frames.
+The extension should implement the TEN Framework interfaces and handle functions like data_in, data_out, and cmd_in, cmd_out, audio_in, and audio_out, video_in, and video_out. 
 
-IMPORTANT: Provide ONLY the code without any explanations or comments. Start your response with the opening code fence and end with the closing code fence.
+IMPORTANT: Provide ONLY the code without any explanations or comments. Start your response with the opening code fence and end with the closing code fence. Make sure to use 'ten_framework/ten' instead of 'agoraio/rte' in the import statements.
 `, supplementalContent, name, extensionDescription, apiKey, apiURL, modelName)
 
 	goCodePrompt := basePrompt + "\nGenerate the main.go file for this extension:"
