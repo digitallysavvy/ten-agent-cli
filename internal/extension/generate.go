@@ -110,9 +110,9 @@ The extension should implement the TEN Framework interfaces and handle video fra
 	extensionPath := filepath.Join("agents", "ten_packages", "extension", name)
 
 	//Overwrite the files with the generated code
-	err = os.WriteFile(filepath.Join(extensionPath, "main.go"), []byte(goCode), 0644)
+	err = os.WriteFile(filepath.Join(extensionPath, name+"_extension.go"), []byte(goCode), 0644)
 	if err != nil {
-		return fmt.Errorf("failed to write main.go: %w", err)
+		return fmt.Errorf("failed to write %s_extension.go: %w", name, err)
 	}
 
 	err = os.WriteFile(filepath.Join(extensionPath, "manifest.json"), []byte(manifestJSON), 0644)
