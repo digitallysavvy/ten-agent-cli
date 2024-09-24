@@ -52,10 +52,14 @@ Example:
 		envVars := map[string]string{
 			"AGORA_APP_ID":                 getOrPrompt(agoraAppID, "Enter Agora App ID", true),
 			"AGORA_APP_CERTIFICATE":        getOrPrompt(agoraCertificate, "Enter Agora App Certificate", false),
+			"AWS_ACCESS_KEY_ID":            getOrPrompt(awsAccessKey, "Enter AWS Access Key ID", false),
+			"AWS_SECRET_ACCESS_KEY":        getOrPrompt(awsSecretKey, "Enter AWS Secret Access Key", false),
 			"AZURE_STT_KEY":                getOrPrompt(azureSTTKey, "Enter Azure Speech-to-Text Key", true),
 			"AZURE_STT_REGION":             getOrPrompt(azureSTTRegion, "Enter Azure Speech-to-Text Region", true),
 			"AZURE_TTS_KEY":                getOrPrompt(azureTTSKey, "Enter Azure Text-to-Speech Key", true),
 			"AZURE_TTS_REGION":             getOrPrompt(azureTTSRegion, "Enter Azure Text-to-Speech Region", true),
+			"ELEVENLABS_TTS_KEY":           getOrPrompt(elevenLabsTTSKey, "Enter ElevenLabs TTS Key", false),
+			"GEMINI_API_KEY":               getOrPrompt(geminiAPIKey, "Enter Gemini API Key", false),
 			"OPENAI_API_KEY":               getOrPrompt(openAIKey, "Enter OpenAI API Key", true),
 			"GRAPH_DESIGNER_SERVER_PORT":   getOrPrompt(graphDesignerPort, "Enter Graph Designer Server Port", false),
 			"SERVER_PORT":                  getOrPrompt(serverPort, "Enter Server Port", false),
@@ -104,10 +108,14 @@ func init() {
 
 	initCmd.Flags().StringVar(&agoraAppID, "agora-app-id", "", "Agora App ID (required)")
 	initCmd.Flags().StringVar(&agoraCertificate, "agora-certificate", "", "Agora App Certificate")
+	initCmd.Flags().StringVar(&awsAccessKey, "aws-access-key", "", "AWS Access Key ID (required)")
+	initCmd.Flags().StringVar(&awsSecretKey, "aws-secret-key", "", "AWS Secret Access Key (required)")
 	initCmd.Flags().StringVar(&azureSTTKey, "azure-stt-key", "", "Azure Speech-to-Text Key (required)")
 	initCmd.Flags().StringVar(&azureSTTRegion, "azure-stt-region", "", "Azure Speech-to-Text Region (required)")
 	initCmd.Flags().StringVar(&azureTTSKey, "azure-tts-key", "", "Azure Text-to-Speech Key (required)")
 	initCmd.Flags().StringVar(&azureTTSRegion, "azure-tts-region", "", "Azure Text-to-Speech Region (required)")
+	initCmd.Flags().StringVar(&elevenLabsTTSKey, "elevenlabs-tts-key", "", "ElevenLabs TTS Key (required)")
+	initCmd.Flags().StringVar(&geminiAPIKey, "gemini-api-key", "", "Gemini API Key (required)")
 	initCmd.Flags().StringVar(&openAIKey, "openai-key", "", "OpenAI API Key (required)")
 	initCmd.Flags().StringVar(&graphDesignerPort, "graph-designer-port", "49483", "Graph Designer Server Port")
 	initCmd.Flags().StringVar(&serverPort, "server-port", "8080", "Server Port")
@@ -116,10 +124,6 @@ func init() {
 	initCmd.Flags().StringVar(&logPath, "log-path", "/tmp/astra", "Log path")
 	initCmd.Flags().StringVar(&logStdout, "log-stdout", "false", "Log to stdout (true/false)")
 	initCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose logging")
-	initCmd.Flags().StringVar(&awsAccessKey, "aws-access-key", "", "AWS Access Key ID")
-	initCmd.Flags().StringVar(&awsSecretKey, "aws-secret-key", "", "AWS Secret Access Key")
-	initCmd.Flags().StringVar(&elevenLabsTTSKey, "elevenlabs-tts-key", "", "ElevenLabs TTS Key")
-	initCmd.Flags().StringVar(&geminiAPIKey, "gemini-api-key", "", "Gemini API Key")
 }
 
 func getOrPrompt(value, prompt string, required bool) string {
