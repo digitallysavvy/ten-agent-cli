@@ -12,14 +12,8 @@ import (
 func Create(name string) error {
 	reader := bufio.NewReader(os.Stdin)
 
-	// Save the current working directory
-	originalDir, err := os.Getwd()
-	if err != nil {
-		return fmt.Errorf("failed to get current directory: %w", err)
-	}
-
 	// Change the working directory to the agents folder
-	err = os.Chdir("agents")
+	err := os.Chdir("agents")
 	if err != nil {
 		return fmt.Errorf("failed to change directory: %w", err)
 	}
@@ -71,11 +65,5 @@ func Create(name string) error {
 
 		fmt.Println("manifest.json updated successfully")
 	}
-	// Change the directory back to the original working directory
-	err = os.Chdir(originalDir)
-	if err != nil {
-		return fmt.Errorf("failed to change back to original directory: %w", err)
-	}
-
 	return nil
 }
