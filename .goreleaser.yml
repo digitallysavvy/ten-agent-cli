@@ -16,6 +16,7 @@ builds:
       - amd64
       - arm64
     main: . # use main.go in the root directory
+    binary: ten-agent # set the CLI binary name
 
 archives:
   - format: tar.gz
@@ -45,7 +46,7 @@ changelog:
       - '^test:'
 
 brews:
-  - name: ten-agent-cli
+  - name: ten-agent
     repository:
       owner: digitallysavvy
       name: homebrew-tap
