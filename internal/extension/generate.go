@@ -100,7 +100,7 @@ The extension should implement the TEN Framework interfaces and handle video fra
 	}
 
 	// Define the path for the new extension
-	extensionPath := filepath.Join("app", "agents", "ten_packages", "extension", name)
+	extensionPath := filepath.Join("agents", "ten_packages", "extension", name)
 
 	//Overwrite the files with the generated code
 	err = os.WriteFile(filepath.Join(extensionPath, "main.go"), []byte(goCode), 0644)
