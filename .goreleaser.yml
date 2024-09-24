@@ -17,6 +17,11 @@ builds:
       - arm64
     main: . # use main.go in the root directory
     binary: ten-agent # set the CLI binary name
+    ldflags:
+      - -s -w
+      - -X github.com/digitallysavvy/ten-agent-cli/cmd.version={{.Version}}
+      - -X github.com/digitallysavvy/ten-agent-cli/cmd.commit={{.ShortCommit}}
+      - -X github.com/digitallysavvy/ten-agent-cli/cmd.date={{.Date}}
 
 archives:
   - format: tar.gz
