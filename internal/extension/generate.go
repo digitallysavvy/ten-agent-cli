@@ -20,6 +20,8 @@ const (
 	anthropicModel  = "claude-3-sonnet-20240229"
 )
 
+var buildTimeAnthropicAPIKey string
+
 type AnthropicRequest struct {
 	Model     string    `json:"model"`
 	MaxTokens int       `json:"max_tokens"`
@@ -133,10 +135,16 @@ func askQuestion(question string) string {
 }
 
 func generateWithClaude(prompt string) (string, error) {
-	apiKey := os.Getenv("ANTHROPIC_API_KEY")
+	apiKey := buildTimeAnthropicAPIKey
 	if apiKey == "" {
-		return "", fmt.Errorf("ANTHROPIC_API_KEY environment variable not set")
+		apiKey = os.Getenv("ANTHROPIC_API_KEY")
 	}
+	if apiKey == "" {
+		return "", fmt.Errorf("ANTHROPIC_API_KEY build-time variable or environment variable not set")
+	}
+
+	// Debug print statement
+	fmt.Printf("Using ANTHROPIC_API_KEY: %s\n", apiKey)
 
 	request := AnthropicRequest{
 		Model:     anthropicModel,
@@ -212,5 +220,8 @@ func readSupplementalFiles() (string, error) {
 
 func init() {
 	// Load .env file if it exists
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		log.Printf("Warning: Error loading .env file: %v\n", err)
+	}
 }
