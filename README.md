@@ -100,6 +100,10 @@ This command will display the help information for the TEN Agent CLI.
 
 See: [LOCAL_DEV_README.md](./docs/LOCAL_DEV_README.md)
 
+### Deploying to AWS ECR
+
+See: [GitHub Actions AWS Deployment](https://github.com/actions/starter-workflows/blob/main/deployments/aws.yml)
+
 ### Deploying to Railway
 
 See: [DEPLOY_README.md](./docs/DEPLOY_README.md)
