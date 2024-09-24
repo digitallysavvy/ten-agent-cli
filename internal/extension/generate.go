@@ -20,7 +20,7 @@ const (
 	anthropicModel  = "claude-3-sonnet-20240229"
 )
 
-var buildTimeAnthropicAPIKey string
+var anthropicAPIKey string
 
 type AnthropicRequest struct {
 	Model     string    `json:"model"`
@@ -39,10 +39,17 @@ type AnthropicResponse struct {
 	} `json:"content"`
 }
 
-func Generate(name string, verbose bool) error {
+func Generate(name string, buildTimeAnthropicAPIKey string, verbose bool) error {
 	if verbose {
 		log.Println("Starting AI-powered extension generation...")
 	}
+
+	if buildTimeAnthropicAPIKey == "" {
+		return fmt.Errorf("ANTHROPIC_API_KEY build-time variable not set")
+	}
+
+	// Set the anthropicAPIKey to the build-time variable
+	anthropicAPIKey = buildTimeAnthropicAPIKey
 
 	// Create the extension using the Create function
 	err := Create(name)
@@ -135,13 +142,9 @@ func askQuestion(question string) string {
 }
 
 func generateWithClaude(prompt string) (string, error) {
-	apiKey := buildTimeAnthropicAPIKey
-	if apiKey == "" {
-		return "", fmt.Errorf("ANTHROPIC_API_KEY build-time variable not set")
-	}
 
 	// Debug print statement - TODO: Remove this before release
-	fmt.Printf("Using ANTHROPIC_API_KEY: %s\n", apiKey)
+	fmt.Printf("Using ANTHROPIC_API_KEY: %s\n", anthropicAPIKey)
 
 	request := AnthropicRequest{
 		Model:     anthropicModel,
@@ -160,7 +163,7 @@ func generateWithClaude(prompt string) (string, error) {
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", apiKey))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", anthropicAPIKey))
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {

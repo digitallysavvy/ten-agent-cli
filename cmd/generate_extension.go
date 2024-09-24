@@ -9,7 +9,8 @@ import (
 )
 
 var (
-	extensionName string
+	extensionName   string
+	anthropicAPIKey string
 )
 
 var generateExtensionCmd = &cobra.Command{
@@ -27,7 +28,8 @@ Example:
 			log.Printf("Generating extension: %s\n", extensionName)
 		}
 
-		err := extension.Generate(extensionName, verbose)
+		// Send user input to Anthropic API
+		err := extension.Generate(extensionName, anthropicAPIKey, verbose)
 		if err != nil {
 			log.Fatalf("Failed to generate extension: %v\n", err)
 		}
