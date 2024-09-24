@@ -28,6 +28,10 @@ var (
 	logPath           string
 	logStdout         string
 	verbose           bool
+	awsAccessKey      string
+	awsSecretKey      string
+	elevenLabsTTSKey  string
+	geminiAPIKey      string
 )
 
 var initCmd = &cobra.Command{
@@ -112,6 +116,10 @@ func init() {
 	initCmd.Flags().StringVar(&logPath, "log-path", "/tmp/astra", "Log path")
 	initCmd.Flags().StringVar(&logStdout, "log-stdout", "false", "Log to stdout (true/false)")
 	initCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose logging")
+	initCmd.Flags().StringVar(&awsAccessKey, "aws-access-key", "", "AWS Access Key ID")
+	initCmd.Flags().StringVar(&awsSecretKey, "aws-secret-key", "", "AWS Secret Access Key")
+	initCmd.Flags().StringVar(&elevenLabsTTSKey, "elevenlabs-tts-key", "", "ElevenLabs TTS Key")
+	initCmd.Flags().StringVar(&geminiAPIKey, "gemini-api-key", "", "Gemini API Key")
 }
 
 func getOrPrompt(value, prompt string, required bool) string {

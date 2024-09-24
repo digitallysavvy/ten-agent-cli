@@ -101,8 +101,8 @@ ALIYUN_TEXT_EMBEDDING_API_KEY=
 
 # Extension: bedrock_llm
 # Extension: polly_tts
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
+AWS_ACCESS_KEY_ID=%s
+AWS_SECRET_ACCESS_KEY=%s
 
 # Extension: agora_rtc
 # Azure STT key and region
@@ -120,11 +120,11 @@ COSY_TTS_KEY=
 
 # Extension: elevenlabs_tts
 # ElevenLabs TTS key
-ELEVENLABS_TTS_KEY=
+ELEVENLABS_TTS_KEY=%s
 
 # Extension: gemini_llm
 # Gemini API key
-GEMINI_API_KEY=
+GEMINI_API_KEY=%s
 
 # Extension: litellm
 # Using Environment Variables, refer to https://docs.litellm.ai/docs/providers
@@ -163,6 +163,10 @@ QWEN_API_KEY=
 		envVars["AZURE_TTS_KEY"],
 		envVars["AZURE_TTS_REGION"],
 		envVars["OPENAI_API_KEY"],
+		envVars["AWS_ACCESS_KEY_ID"],
+		envVars["AWS_SECRET_ACCESS_KEY"],
+		envVars["ELEVENLABS_TTS_KEY"],
+		envVars["GEMINI_API_KEY"],
 	)
 
 	return err
