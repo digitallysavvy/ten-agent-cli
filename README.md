@@ -31,42 +31,9 @@ brew install digitallysavvy/tap/ten-agent
 1. Download the latest Windows release from the [releases page](https://github.com/digitallysavvy/ten-agent-cli/releases).
 2. Add the directory containing the `ten-agent.exe` file to your system's PATH.
 
-### Option 3: Build from Source
+## Build from Source
 
-#### Prerequisites
-
-- Go 1.16 or later
-- Docker
-- Docker Compose
-
-#### Building the CLI
-
-1. Clone this repository:
-
-```
-git clone https://github.com/digitallysavvy/ten-agent-cli.git
-cd ten-agent-cli
-```
-
-2. Copy the example environment file:
-
-```
-cp .env.example .env
-```
-
-3. Edit the `.env` file and set the necessary environment variables.
-
-4. Build the CLI:
-
-```
-go build -o ten-agent
-```
-
-5. (Optional) Add the CLI to your PATH for easier access:
-
-```
-sudo mv ten-agent /usr/local/bin/
-```
+See: [BUILD_README.md](./docs/BUILD_README.md)
 
 ## Usage
 
@@ -83,7 +50,13 @@ This command will:
 - Prompt you for necessary environment variables
 - Set up the initial project structure
 
-### Starting the TEN Agent services
+### Running the TEN Agent Development Environment
+
+There are two options for starting the TEN Agent development environment:
+
+1. VSCode - Start the TEN Agent services with VSCode Dev Containers. Open the project in VSCode, and use the `Dev Containers: Reopen in Container` command from the Command Palette (⇧⌘P).
+
+2. Ten-Agent - Start the TEN Agent services with Docker.
 
 ```
 ten-agent start
@@ -96,57 +69,37 @@ This command will:
 
 ### Stopping the TEN Agent services
 
+When starting the TEN Agent with `ten-agent start`, the containers are left running in detached mode. To stop the TEN Agent services, use the following command:
+
 ```
 ten-agent stop
 ```
 
 This command will stop and remove the Docker containers for the TEN Agent services.
 
+### Generating an Extension
+
+```
+ten-agent generate [extension-name] --verbose
+```
+
+This command will generate an extension using Claude 3.5 Sonnet. The `--verbose` flag is optional and will output the generated code to the console. Feel free to omit it to generate the files silently.
+
+### Help
+
+```
+ten-agent help
+```
+
+This command will display the help information for the TEN Agent CLI.
+
 ## Development and Testing
 
-### Running the CLI locally
-
-While developing, you can run the CLI directly with Go:
-
-```
-go run main.go [command]
-```
-
-For example:
-
-```
-go run main.go init my-agent
-go run main.go start
-go run main.go stop
-
-```
-
-### Testing
-
-To run the tests for the CLI, use the following command:
-
-```
-
-go test ./...
-
-```
-
-This will run all tests in the project.
-
-### Adding new commands
-
-1. Create a new file in the `cmd` directory for your command (e.g., `cmd/newcommanddodo.go`).
-2. Implement your command logic.
-3. In the `init()` function of your new command file, add the command to the root command:
-   ```go
-   func init() {
-       rootCmd.AddCommand(newcommandCmd)
-   }
-   ```
+See: [LOCAL_DEV_README.md](./docs/LOCAL_DEV_README.md)
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to fork the repository and submit a Pull Request.
 
 ## License
 
