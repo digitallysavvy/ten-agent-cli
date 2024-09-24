@@ -18,10 +18,13 @@ brew install digitallysavvy/tap/ten-agent
 
 1. Download the latest release for your operating system from the [releases page](https://github.com/digitallysavvy/ten-agent-cli/releases).
 2. Make the downloaded file executable:
+
    ```
    chmod +x ten-agent
    ```
+
 3. Move the executable to a directory in your PATH:
+
    ```
    sudo mv ten-agent /usr/local/bin/
    ```
@@ -84,6 +87,10 @@ ten-agent generate [extension-name] --verbose
 ```
 
 This command will generate an extension using Claude 3.5 Sonnet. The `--verbose` flag is optional and will output the generated code to the console. Feel free to omit it to generate the files silently.
+
+### Deploying to Railway
+
+See: [DEPLOY_README.md](./docs/DEPLOY_README.md)
 
 ### Help
 
