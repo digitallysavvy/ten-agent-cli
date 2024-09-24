@@ -15,26 +15,20 @@ TEN Agent CLI is a command-line tool designed to help developers initialize, sta
 1. Clone this repository:
 
 ```
-
 git clone https://github.com/digitallysavvy/ten-agent-cli.git
 cd ten-agent-cli
-
 ```
 
 2. Build the CLI:
 
 ```
-
 go build -o ten-agent
-
 ```
 
 3. (Optional) Add the CLI to your PATH for easier access:
 
 ```
-
 sudo mv ten-agent /usr/local/bin/
-
 ```
 
 ## Usage
@@ -42,9 +36,7 @@ sudo mv ten-agent /usr/local/bin/
 ### Initializing a new TEN Agent project
 
 ```
-
 ten-agent init [project-name]
-
 ```
 
 This command will:
@@ -57,9 +49,7 @@ This command will:
 ### Starting the TEN Agent services
 
 ```
-
 ten-agent start
-
 ```
 
 This command will:
@@ -70,9 +60,7 @@ This command will:
 ### Stopping the TEN Agent services
 
 ```
-
 ten-agent stop
-
 ```
 
 This command will stop and remove the Docker containers for the TEN Agent services.
@@ -84,15 +72,12 @@ This command will stop and remove the Docker containers for the TEN Agent servic
 While developing, you can run the CLI directly with Go:
 
 ```
-
 go run main.go [command]
-
 ```
 
 For example:
 
 ```
-
 go run main.go init my-agent
 go run main.go start
 go run main.go stop
