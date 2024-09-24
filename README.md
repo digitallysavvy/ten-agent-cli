@@ -4,13 +4,42 @@ TEN Agent CLI is a command-line tool designed to help developers initialize, sta
 
 ## Installation
 
-### Prerequisites
+### Option 1: Install with Homebrew (macOS and Linux)
+
+You can install TEN Agent CLI using Homebrew:
+
+```
+brew install digitallysavvy/tap/ten-agent-cli
+```
+
+### Option 2: Install from Releases
+
+#### Mac and Linux
+
+1. Download the latest release for your operating system from the [releases page](https://github.com/digitallysavvy/ten-agent-cli/releases).
+2. Make the downloaded file executable:
+   ```
+   chmod +x ten-agent
+   ```
+3. Move the executable to a directory in your PATH:
+   ```
+   sudo mv ten-agent /usr/local/bin/
+   ```
+
+#### Windows
+
+1. Download the latest Windows release from the [releases page](https://github.com/digitallysavvy/ten-agent-cli/releases).
+2. Add the directory containing the `ten-agent.exe` file to your system's PATH.
+
+### Option 3: Build from Source
+
+#### Prerequisites
 
 - Go 1.16 or later
 - Docker
 - Docker Compose
 
-### Building the CLI
+#### Building the CLI
 
 1. Clone this repository:
 
@@ -19,13 +48,21 @@ git clone https://github.com/digitallysavvy/ten-agent-cli.git
 cd ten-agent-cli
 ```
 
-2. Build the CLI:
+2. Copy the example environment file:
+
+```
+cp .env.example .env
+```
+
+3. Edit the `.env` file and set the necessary environment variables.
+
+4. Build the CLI:
 
 ```
 go build -o ten-agent
 ```
 
-3. (Optional) Add the CLI to your PATH for easier access:
+5. (Optional) Add the CLI to your PATH for easier access:
 
 ```
 sudo mv ten-agent /usr/local/bin/
