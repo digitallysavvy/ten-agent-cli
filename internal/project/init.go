@@ -45,19 +45,7 @@ func Initialize(projectName string, envVars map[string]string) error {
 		return fmt.Errorf("failed to create .env file: %w", err)
 	}
 
-	// Install dependencies
-	cmd = exec.Command("docker", "compose", "pull")
-	err = cmd.Run()
-	if err != nil {
-		return fmt.Errorf("failed to pull Docker images: %w", err)
-	}
-
-	// Build the project
-	cmd = exec.Command("docker", "compose", "run", "--rm", "astra_agents_dev", "make", "build")
-	err = cmd.Run()
-	if err != nil {
-		return fmt.Errorf("failed to build the project: %w", err)
-	}
+	fmt.Println("Project initialized successfully. Use 'ten-agent start' to build and start the services.")
 
 	return nil
 }
