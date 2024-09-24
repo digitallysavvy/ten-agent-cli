@@ -88,10 +88,6 @@ ten-agent generate [extension-name] --verbose
 
 This command will generate an extension using Claude 3.5 Sonnet. The `--verbose` flag is optional and will output the generated code to the console. Feel free to omit it to generate the files silently.
 
-### Deploying to Railway
-
-See: [DEPLOY_README.md](./docs/DEPLOY_README.md)
-
 ### Help
 
 ```
@@ -103,6 +99,10 @@ This command will display the help information for the TEN Agent CLI.
 ## Development and Testing
 
 See: [LOCAL_DEV_README.md](./docs/LOCAL_DEV_README.md)
+
+### Deploying to Railway
+
+See: [DEPLOY_README.md](./docs/DEPLOY_README.md)
 
 ## Contributing
 
