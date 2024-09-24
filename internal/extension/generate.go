@@ -85,6 +85,8 @@ Now, generate the content for a TEN Framework extension with the following detai
 - Model Name: %s
 
 The extension should implement the TEN Framework interfaces and handle video frames.
+
+IMPORTANT: Provide ONLY the code without any explanations or comments. Start your response with the opening code fence and end with the closing code fence.
 `, supplementalContent, name, extensionDescription, apiKey, apiURL, modelName)
 
 	goCodePrompt := basePrompt + "\nGenerate the main.go file for this extension:"
@@ -95,16 +97,19 @@ The extension should implement the TEN Framework interfaces and handle video fra
 	if err != nil {
 		return fmt.Errorf("failed to generate main.go: %w", err)
 	}
+	goCode = sanitizeResponse(goCode)
 
 	manifestJSON, err := generateWithClaude(manifestJSONPrompt, verbose)
 	if err != nil {
 		return fmt.Errorf("failed to generate manifest.json: %w", err)
 	}
+	manifestJSON = sanitizeResponse(manifestJSON)
 
 	propertyJSON, err := generateWithClaude(propertyJSONPrompt, verbose)
 	if err != nil {
 		return fmt.Errorf("failed to generate property.json: %w", err)
 	}
+	propertyJSON = sanitizeResponse(propertyJSON)
 
 	// Define the path for the new extension
 	extensionPath := filepath.Join("ten_packages", "extension", name)
@@ -240,4 +245,28 @@ func readSupplementalFiles() (string, error) {
 		supplementalContent.WriteString(fmt.Sprintf("File: %s\n\n%s\n\n", file, string(content)))
 	}
 	return supplementalContent.String(), nil
+}
+
+// sanitizeResponse removes the code fences and any leading newlines from the response
+func sanitizeResponse(response string) string {
+	// Find the first occurrence of ```
+	start := strings.Index(response, "```")
+	if start == -1 {
+		return response
+	}
+	// Find the closing ```
+	end := strings.LastIndex(response, "```")
+	if end == -1 || end <= start {
+		return response
+	}
+	// Extract the content between the code fences
+	content := response[start+3 : end]
+	// Remove the language identifier and any leading newlines
+	lines := strings.SplitN(content, "\n", 2)
+	if len(lines) > 1 {
+		content = strings.TrimSpace(lines[1])
+	} else {
+		content = strings.TrimSpace(content)
+	}
+	return content
 }
