@@ -11,8 +11,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/joho/godotenv"
 )
 
 const (
@@ -143,9 +141,6 @@ func askQuestion(question string) string {
 
 func generateWithClaude(prompt string) (string, error) {
 
-	// Debug print statement - TODO: Remove this before release
-	fmt.Printf("Using ANTHROPIC_API_KEY: %s\n", anthropicAPIKey)
-
 	request := AnthropicRequest{
 		Model:     anthropicModel,
 		MaxTokens: 4000,
@@ -216,12 +211,4 @@ func readSupplementalFiles() (string, error) {
 		supplementalContent.WriteString(fmt.Sprintf("File: %s\n\n%s\n\n", file, string(content)))
 	}
 	return supplementalContent.String(), nil
-}
-
-func init() {
-	// Load .env file if it exists
-	err := godotenv.Load()
-	if err != nil {
-		log.Printf("Warning: Error loading .env file: %v\n", err)
-	}
 }
