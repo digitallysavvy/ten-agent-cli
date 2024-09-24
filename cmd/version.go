@@ -13,11 +13,17 @@ var (
 )
 
 var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Print the version number of TEN Agent CLI",
-	Long:  `All software has versions. This is TEN Agent's`,
+	Use:     "version",
+	Aliases: []string{"v"},
+	Short:   "Print the version number of TEN Agent CLI",
+	Long:    `All software has versions. This is TEN-Agent CLI's`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("TEN Agent CLI v%s (commit: %s, built at: %s)\n", version, commit, date)
+		v, _ := cmd.Flags().GetBool("version")
+		if v {
+			fmt.Printf("TEN Agent CLI v%s (commit: %s, built at: %s)\n", version, commit, date)
+		} else {
+			fmt.Println(cmd.UsageString())
+		}
 	},
 }
 
