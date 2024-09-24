@@ -9,7 +9,7 @@ TEN Agent CLI is a command-line tool designed to help developers initialize, sta
 You can install TEN Agent CLI using Homebrew:
 
 ```
-brew install digitallysavvy/tap/ten-agent-cli
+brew install digitallysavvy/tap/ten-agent
 ```
 
 ### Option 2: Install from Releases
