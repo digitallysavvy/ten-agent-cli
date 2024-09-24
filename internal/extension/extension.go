@@ -1,13 +1,17 @@
 package extension
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 func Create(name string) error {
+	reader := bufio.NewReader(os.Stdin)
+
 	// Change the working directory to the agents folder
 	err := os.Chdir("agents")
 	if err != nil {
@@ -30,19 +34,25 @@ func Create(name string) error {
 
 	fmt.Printf("Extension '%s' created successfully\n", name)
 
-	// Walk through manifest.json options
-	manifestPath := filepath.Join(name, "manifest.json")
-	api, err := walkThroughManifestOptions()
-	if err != nil {
-		return fmt.Errorf("failed to walk through manifest options: %w", err)
-	}
+	fmt.Printf("Do you want to walk through the manifest options? (y/n): ")
+	response, _ := reader.ReadString('\n')
+	response = strings.TrimSpace(response)
+	// if response is y, then walk through the manifest options
+	if strings.ToLower(response) == "y" {
+		// Walk through manifest.json options
+		manifestPath := filepath.Join("ten_packages", "extension", name, "manifest.json")
+		api, err := walkThroughManifestOptions()
+		if err != nil {
+			return fmt.Errorf("failed to walk through manifest options: %w", err)
+		}
 
-	// Update manifest.json with new API options
-	err = updateManifest(manifestPath, api)
-	if err != nil {
-		return fmt.Errorf("failed to update manifest: %w", err)
-	}
+		// Update manifest.json with new API options
+		err = updateManifest(manifestPath, api)
+		if err != nil {
+			return fmt.Errorf("failed to update manifest: %w", err)
+		}
 
-	fmt.Println("manifest.json updated successfully")
+		fmt.Println("manifest.json updated successfully")
+	}
 	return nil
 }
