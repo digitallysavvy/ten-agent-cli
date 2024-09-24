@@ -91,17 +91,17 @@ The extension should implement the TEN Framework interfaces and handle video fra
 	manifestJSONPrompt := basePrompt + "\nGenerate the manifest.json file for this extension:"
 	propertyJSONPrompt := basePrompt + "\nGenerate the property.json file for this extension:"
 
-	goCode, err := generateWithClaude(goCodePrompt)
+	goCode, err := generateWithClaude(goCodePrompt, verbose)
 	if err != nil {
 		return fmt.Errorf("failed to generate main.go: %w", err)
 	}
 
-	manifestJSON, err := generateWithClaude(manifestJSONPrompt)
+	manifestJSON, err := generateWithClaude(manifestJSONPrompt, verbose)
 	if err != nil {
 		return fmt.Errorf("failed to generate manifest.json: %w", err)
 	}
 
-	propertyJSON, err := generateWithClaude(propertyJSONPrompt)
+	propertyJSON, err := generateWithClaude(propertyJSONPrompt, verbose)
 	if err != nil {
 		return fmt.Errorf("failed to generate property.json: %w", err)
 	}
@@ -139,7 +139,10 @@ func askQuestion(question string) string {
 	return strings.TrimSpace(answer)
 }
 
-func generateWithClaude(prompt string) (string, error) {
+func generateWithClaude(prompt string, verbose bool) (string, error) {
+	if verbose {
+		log.Println("Preparing request to Claude API...")
+	}
 
 	request := AnthropicRequest{
 		Model:     anthropicModel,
@@ -149,12 +152,16 @@ func generateWithClaude(prompt string) (string, error) {
 
 	jsonData, err := json.Marshal(request)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to marshal request: %w", err)
+	}
+
+	if verbose {
+		log.Println("Sending request to Claude API...")
 	}
 
 	req, err := http.NewRequest("POST", anthropicAPIURL, bytes.NewBuffer(jsonData))
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to create HTTP request: %w", err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -162,18 +169,39 @@ func generateWithClaude(prompt string) (string, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to send request: %w", err)
 	}
-
 	defer resp.Body.Close()
 
-	var response AnthropicResponse
-	err = json.NewDecoder(resp.Body).Decode(&response)
-	if err != nil {
-		return "", err
+	if verbose {
+		log.Printf("Received response with status code: %d\n", resp.StatusCode)
 	}
 
-	return string(response.Content[0].Text), nil
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	if verbose {
+		log.Printf("Response body: %s\n", string(body))
+	}
+
+	// Check if the response status code indicates an error
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("API returned non-200 status code: %d, body: %s", resp.StatusCode, string(body))
+	}
+
+	var response AnthropicResponse
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return "", fmt.Errorf("failed to unmarshal response: %w", err)
+	}
+
+	if len(response.Content) == 0 {
+		return "", fmt.Errorf("empty response content from API")
+	}
+
+	return response.Content[0].Text, nil
 }
 
 func readSupplementalFiles() (string, error) {
