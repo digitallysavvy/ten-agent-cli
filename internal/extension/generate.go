@@ -165,7 +165,8 @@ func generateWithClaude(prompt string, verbose bool) (string, error) {
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", anthropicAPIKey))
+	req.Header.Set("x-api-key", anthropicAPIKey)
+	req.Header.Set("anthropic-version", "2023-06-01")
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
